@@ -1,0 +1,159 @@
+name: opencv-html-demo
+base: core22
+version: '0.1'
+summary: A demo running OpenCV face detection embedded in html
+description: |
+  OpenCV HTML demo
+
+grade: stable
+confinement: strict
+
+lint:
+  ignore:
+    - classic
+    - library
+
+apps:
+  daemon:
+    command:  bin/python3 $SNAP/bin/main.py
+    daemon: simple
+    environment:
+      LD_LIBRARY_PATH: $SNAP/usr/lib/atlas-base/atlas:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/atlas/:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/samba:$LD_LIBRARY_PATH
+      PYTHONPATH: $SNAP/usr/lib/python3.10/dist-packages:$SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages
+    plugs:
+      - camera
+      - home
+      - network
+      - network-bind
+
+parts:
+  opencv:
+    plugin: cmake
+    source: https://github.com/opencv/opencv.git
+    source-branch: 4.6.0
+    source-depth: 1
+    cmake-generator: Ninja
+    cmake-parameters:
+      - -DINSTALL_C_EXAMPLES=ON
+      - -DINSTALL_PYTHON_EXAMPLES=ON
+      - -DBUILD_EXAMPLES=ON
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DOPENCV_EXTRA_MODULES_PATH=contrib/modules
+      - -DWITH_JASPER=ON
+      - -DBUILD_opencv_apps=ON
+    override-build: |
+      git-force-clone -b 4.x https://github.com/opencv/opencv_contrib.git contrib
+      craftctl default
+    build-packages:
+      - libjpeg-dev
+      - libtiff5-dev
+      - libpng-dev
+      - libavcodec-dev
+      - libavformat-dev
+      - libswscale-dev
+      - libv4l-dev
+      - libxvidcore-dev
+      - libx264-dev
+      - libatlas-base-dev
+      - libva-dev
+      - libeigen3-dev
+      - libgtk2.0-dev
+      - libclc-12-dev
+      - libopenjp2-7-dev
+      - python3-dev
+      - python3-numpy
+      - libopenjpip7
+      - libgstreamer-plugins-base1.0-dev
+      - libgstreamer-plugins-good1.0-dev
+      - libgstreamer-plugins-bad1.0-dev
+      - libdc1394-dev
+      - libogre-1.9-dev
+      - libtesseract-dev
+      - libgtkglext1-dev
+      - libvtk9-dev
+      - liblapack-dev
+      - git-extras
+      - libvpx-dev
+    stage-packages:
+      - libaec0
+      - libaom3
+      - libatlas3-base
+      - libavcodec58
+      - libavcodec-extra58
+      - libavformat58
+      - libavformat-extra58
+      - libavutil56
+      - libbluray2
+      - libchromaprint1
+      - libcodec2-1.0
+      - libdav1d5
+      - libdc1394-25
+      - libgif7
+      - libgme0
+      - libgsm1
+      - libhdf5-103-1
+      - libilmbase25
+      - liblept5
+      - libmfx1
+      - libnorm1
+      - libnuma1
+      - libopenexr25
+      - libopenmpt0
+      - libpgm-5.3-0
+      - librabbitmq4
+      - libshine3
+      - libsnappy1v5
+      - libsodium23
+      - libsoxr0
+      - libsrt1.4-gnutls
+      - libssh-gcrypt-4
+      - libswresample3
+      - libswscale5
+      - libsz2
+      - libtesseract4
+      - libudfread0
+      - libusb-1.0-0
+      - libva-drm2
+      - libva-wayland2
+      - libva-x11-2
+      - libvdpau1
+      - libwebpmux3
+      - libx264-163
+      - libx265-199
+      - libxvidcore4
+      - libzmq5
+      - libzvbi0
+      - ocl-icd-libopencl1
+      - libv4l-0
+      - libv4lconvert0
+      - python3-numpy
+      - libvpx7
+  py-packages:
+    plugin: python
+    source: .
+    python-packages:
+      - flask
+      - flask-restful
+      - numpy
+    build-packages:
+      - build-essential
+  apps:
+    plugin: dump
+    source: demos
+    stage-packages:
+      - python3-minimal
+      - libatk1.0-0
+      - libdw1
+      - libgstreamer1.0-0
+      - libgstreamer1.0-dev
+      - libgstreamer-plugins-base1.0-0
+      - libgtk2.0-0
+      - liborc-0.4-0
+      - libunwind8
+      - libvtk9.1
+      - libxcomposite1
+      - libxcursor1
+      - libxdamage1
+      - libxi6
+      - libxinerama1
+      - libxrandr2

@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <title>Video Streaming Demonstration</title>
+    <style>
+header img {
+    height: 60px;
+}
+body {
+    background-image: url('static/wallpaper.jpg');
+    background-size: 100%;
+    /*font-family: sans-serif;*/
+    font-family: Ubuntu;
+    margin-top: 60px;
+    padding: 10px;
+}
+main {
+    color: white;
+    align-items: center;
+}
+main img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    border-radius: 12px;
+}
+header {
+    background-color: #333333;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 25px 0 black;
+}
+header * {
+    display: inline;
+}
+header li {
+    margin: 20px;
+    margin-right: 0px;
+}
+
+header li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+header li a:hover {
+    color: white;
+    background-color: #E95420;
+}
+header h2 {
+    margin: 20px;
+}
+header nav {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding-top: 20px;
+}
+.dropbtn {
+  background-color: #333333;
+  background-image: url('static/gear-small.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  color: white;
+  padding: 16px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 6px;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+  border-radius: 6px;
+  padding-right: 15px;
+  top: -10px;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 20px;
+  background-color: #333333;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
+  z-index: 1;
+  border-radius: 6px;
+}
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 6px;
+}
+.dropdown:hover .dropdown-content {display: block;}
+.dropbtn:hover {background-color: #E95420;}
+    </style>
+  </head>
+  <body>
+    <header>
+       <img src="static/logo.svg">
+       <h2>Ubuntu Core AI Demo</h2>
+        <nav>
+            <ul>
+     <li>
+     <div class="dropdown" style="float:right;">
+      <button class="dropbtn"></button>
+      <div class="dropdown-content">
+        <a href="#">Wifi Settings</a>
+        <a href="#">Select Demo</a>
+      </div>
+     </div>
+     </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+      <img id="stream" src="{{ url_for('video_feed') }}">
+    </main>
+  </body>
+</html>
