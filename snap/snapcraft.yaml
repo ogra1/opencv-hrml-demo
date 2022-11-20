@@ -94,7 +94,6 @@ parts:
       - libhdf5-103-1
       - libilmbase25
       - liblept5
-      - libmfx1
       - libnorm1
       - libnuma1
       - libopenexr25
@@ -128,6 +127,7 @@ parts:
       - libv4lconvert0
       - python3-numpy
       - libvpx7
+      - to amd64: [ "libmfx1" ]
   py-packages:
     plugin: python
     source: .
@@ -157,3 +157,5 @@ parts:
       - libxi6
       - libxinerama1
       - libxrandr2
+    prime:
+      - -usr/lib/$SNAPCRAFT_ARCH_TRIPLET/libc_malloc_debug.so
