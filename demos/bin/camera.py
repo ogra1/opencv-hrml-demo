@@ -1,11 +1,12 @@
 import cv2
 import urllib
+import os
 import pdb
 import numpy as np
 
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-#https://github.com/Itseez/opencv/blob/master/data/haarcascades/haarcascade_eye.xml
-eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+snap = os.environ["SNAP"]
+face_cascade = cv2.CascadeClassifier(snap + '/usr/share/opencv4/haarcascades/haarcascade_frontalface_default.xml')
+eyes_cascade = cv2.CascadeClassifier(snap + '/usr/share/opencv4/haarcascades/haarcascade_eye.xml')
 
 class VideoCamera(object):
     def __init__(self):
@@ -23,33 +24,41 @@ class VideoCamera(object):
     def __del__(self):
         self.video.release()
 
+    def detect_eyes(self, gray, frame):
+        """ Input = greyscale image or frame from video stream
+            Output = Image with rectangle boxes around eyes and face
+        """
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+        for (x,y,w,h) in faces:
+          cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0), 2)
+
+          roi_gray = gray[y:y+h, x:x+w]
+          roi_color = frame[y:y+h, x:x+w]
+
+          eyes = eyes_cascade.detectMultiScale(roi_gray, 1.1, 3)
+
+          for (ex, ey, ew, eh) in eyes:
+            cv2.rectangle(roi_color, (ex,ey), (ex+ew, ey+eh), (0, 255, 0), 2)
+
+        return frame
+
+    def detect_faces(self, gray, frame):
+        """ Input = greyscale image or frame from video stream
+            Output = Image with rectangle box in the face
+        """
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+        for (x,y,w,h) in faces:
+          cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0), 2)
+
+        return frame
+
 
     def get_frame(self):
         success, image = self.video.read()
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        canvas = self.detect_faces(gray, image)
+
         ret, jpeg = cv2.imencode('.jpg', image)
         return jpeg.tobytes()
-
-#    def get_frame(self):
-#
-#        bytes=''
-#        while True:
-#            # pdb.set_trace()
-#            bytes+=self.video.read(1024)
-#            a = bytes.find('\xff\xd8')
-#            b = bytes.find('\xff\xd9')
-#            if a!=-1 and b!=-1:
-#                jpg = bytes[a:b+2]
-#                bytes= bytes[b+2:]
-#
-#                img = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.IMREAD_COLOR) 
-#                # pdb.set_trace()
-#                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#                faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-#                for (x,y,w,h) in faces:
-#                    cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
-#                    roi_gray = gray[y:y+h, x:x+w]
-#                    roi_color = img[y:y+h, x:x+w]
-#
-#                ret, jpeg = cv2.imencode('.jpg', img)
-#                return jpeg.tobytes()
-#
