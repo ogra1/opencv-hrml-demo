@@ -39,7 +39,8 @@ class VideoCamera(object):
           eyes = eyes_cascade.detectMultiScale(roi_gray, 1.1, 3)
 
           for (ex, ey, ew, eh) in eyes:
-            cv2.rectangle(roi_color, (ex,ey), (ex+ew, ey+eh), (0, 255, 0), 2)
+            cv2.rectangle(roi_color, (ex,ey), (ex+ew, ey+eh), (111, 33, 119), 2)
+            #cv2.rectangle(roi_color, (ex,ey), (ex+ew, ey+eh), (0, 255, 0), 2)
 
         return frame
 
