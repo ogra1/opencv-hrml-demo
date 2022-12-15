@@ -99,28 +99,108 @@ header nav {
 }
 .dropdown:hover .dropdown-content {display: block;}
 .dropbtn:hover {background-color: #E95420;}
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  background-color: #333333;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #fff;
+  font-family: Tahoma, Arial, sans-serif;
+  background-color: #333333;
+}
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+.popup .close:hover {
+  color: #E95420;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+  background-color: #333333;
+  color: #fff;
+}
     </style>
   </head>
   <body>
     <header>
-       <img src="static/logo.svg">
-       <h2>Ubuntu Core AI Demo</h2>
-        <nav>
-            <ul>
-     <li>
-     <div class="dropdown" style="float:right;">
-      <button class="dropbtn"></button>
-      <div class="dropdown-content">
-        <a href="#">Wifi Settings</a>
-        <a href="#">Select Demo</a>
-      </div>
-     </div>
-     </li>
-            </ul>
-        </nav>
+      <img src="static/logo.svg">
+      <h2>Ubuntu Core AI Demo</h2>
+      <nav>
+        <ul>
+         <li>
+          <div class="dropdown" style="float:right;">
+           <button class="dropbtn"></button>
+           <div class="dropdown-content">
+             <a href="#popup1">Wifi Settings</a>
+             <a href="#popup2">Demo Settings</a>
+           </div>
+          </div>
+         </li>
+        </ul>
+      </nav>
     </header>
     <main>
       <img id="stream" src="{{ url_for('video_feed') }}">
     </main>
+    <div id="popup1" class="overlay">
+      <div class="popup">
+        <h2>Wifi Settings</h2>
+        <hr></hr>
+        <a class="close" href="#">&times;</a>
+		<div class="content">
+          <ul>
+            <li>SSID</li>
+            <li>Password</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="popup2" class="overlay">
+      <div class="popup">
+        <h2>Demo Settings</h2>
+        <hr></hr>
+        <a class="close" href="#">&times;</a>
+        <div class="content">
+          <ul>
+            <li>Select Demo Type</li>
+            <li>Set Camera Resolution</li>
+            <li>Maximize Camera Picture</li>
+            <li>Set Webserver Port</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
