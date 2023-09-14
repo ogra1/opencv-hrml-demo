@@ -47,7 +47,7 @@ parts:
       - -DWITH_JASPER=ON
       - -DBUILD_opencv_apps=ON
     override-build: |
-      git-force-clone -b 4.x https://github.com/opencv/opencv_contrib.git contrib
+      git-force-clone -b 4.6.0 https://github.com/opencv/opencv_contrib.git contrib
       craftctl default
     build-packages:
       - libjpeg-dev
