@@ -57,8 +57,10 @@ class VideoCamera(object):
 
     def get_frame(self):
         success, image = self.video.read()
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        canvas = self.detect_eyes(gray, image)
+        image_flip = cv2.flip(image,1)
 
-        ret, jpeg = cv2.imencode('.jpg', image)
+        gray = cv2.cvtColor(image_flip, cv2.COLOR_BGR2GRAY)
+        canvas = self.detect_eyes(gray, image_flip)
+
+        ret, jpeg = cv2.imencode('.jpg', image_flip)
         return jpeg.tobytes()
