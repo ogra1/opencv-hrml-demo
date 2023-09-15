@@ -129,7 +129,7 @@ header nav {
 .popup h2 {
   margin-top: 0;
   color: #fff;
-  font-family: Tahoma, Arial, sans-serif;
+  font-family: Ubuntu;
   background-color: #333333;
 }
 .popup .close {
@@ -155,7 +155,6 @@ header nav {
   </head>
   <body>
     <header>
-      <img src="static/logo.svg">
       <h2>Ubuntu Core AI Demo</h2>
       <nav>
         <ul>
@@ -174,6 +173,7 @@ header nav {
     <main>
       <img id="stream" src="{{ url_for('video_feed') }}">
     </main>
+    <img style="position: absolute;right: 0px;bottom: 0px;height: 60px;" src="static/logo.svg">
     <div id="popup1" class="overlay">
       <div class="popup">
         <h2>Wifi Settings</h2>
